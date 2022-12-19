@@ -47,7 +47,15 @@ let metric = {
  id:'',
  name: '',
  description: '',
+ value_description: '',
  value: '',
+ date: '',
+ datasource: '',
+ ratinoale: '',
+ confidence80: '',
+ confidence95: '',
+ forecastingError: '',
+ qualityFactors: '',
 };
 let respuesta = {
  error: false,
