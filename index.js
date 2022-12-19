@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require("passport");
 const bodyParser = require('body-parser');
 const http = require('http');
+const { Interface } = require('readline');
 require('./auth');
 
 const app = express();
@@ -13,6 +14,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//VARIABLE
+var metrics = [];
 
 
 function getMetrics() {
@@ -34,37 +38,21 @@ function getMetrics() {
   }).end();
 }
 
+
   //s'executa cada dia a mitjanit
   cron.schedule("0 0 0 * * *", function () {
     console.log("---------------------");
-    console.log("running a task every 15 seconds");
-    var crida = getMetrics();
-    console.log(crida);
+    console.log("running a task every day at midnight");
+    var json = getMetrics();
+    //si la crida falla fer un altre cron al cap de 6 hores per exemple
+    metrics = json;
+    console.log("---------------------");
   });
 
-//VARIABLES
-let metric = {
- id:'',
- name: '',
- description: '',
- value_description: '',
- value: '',
- date: '',
- datasource: '',
- ratinoale: '',
- confidence80: '',
- confidence95: '',
- forecastingError: '',
- qualityFactors: '',
-};
-let respuesta = {
- error: false,
- codigo: 200,
- mensaje: ''
-};
 
 function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
+  res.send("Hola perra");
+  //req.user ? next() : res.sendStatus(401);
 }
 
 //GET base
@@ -101,39 +89,14 @@ app.get('/logout', function(req, res, next) {
 });
 
 
-
-
-
-
-
-
-
-
 //GET usuario
-app.route('/metrics')
- .get(function (req, res) {
-  respuesta = {
-   error: false,
-   codigo: 200,
-   mensaje: ''
-  };
-  if(metric.name === '') {
-   respuesta = {
-    error: true,
-    codigo: 501,
-    mensaje: 'No available metrics to display'
-   };
-  } else {
-   respuesta = {
-    error: false,
-    codigo: 200,
-    mensaje: 'respuesta del usuario',
-    respuesta: metric
-   };
-  }
-  res.send(respuesta);
- })
+app.get('/metrics', isLoggedIn, (req, res) => {
+  res.send("Hello");
+   //res.send(metric);
+});
 
-app.listen(3000, () => {
- console.log("El servidor está inicializado en el puerto 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+ console.log("El servidor está inicializado en el puerto", PORT);
 });
