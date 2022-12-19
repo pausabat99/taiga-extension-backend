@@ -8,12 +8,14 @@ const { Interface } = require('readline');
 require('./auth');
 
 const app = express();
+const cors = require('cors');
 //secret tambe hauria d'anar en una variable d'entorn per no posar-ho al github per exemple
 app.use(session({ secret: 'cats' }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 //VARIABLE
 var metrics = [];
