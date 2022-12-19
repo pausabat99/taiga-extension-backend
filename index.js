@@ -1,14 +1,14 @@
 const cron = require('node-cron');
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
 const http = require('http');
-const { Interface } = require('readline');
 require('./auth');
 
 const app = express();
-const cors = require('cors');
+
 //secret tambe hauria d'anar en una variable d'entorn per no posar-ho al github per exemple
 app.use(session({ secret: 'cats' }));
 app.use(passport.initialize());
