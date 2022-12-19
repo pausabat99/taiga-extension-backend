@@ -15,12 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-
-
-function isLoggedIn(req, res, next) {
-  req.user ? next() : res.sendStatus(401);
-}
-
 function getMetrics() {
 
   return http.request('http://gessi-dashboard.essi.upc.edu:8888/api/metrics/current?prj=s11a', (res) => {
@@ -41,14 +35,12 @@ function getMetrics() {
 }
 
   //s'executa cada dia a mitjanit
-  //cron.schedule('0 0 0 * * *', function() {})
-  /*
-  cron.schedule("* * * * * *", function () {
+  cron.schedule("0 0 0 * * *", function () {
     console.log("---------------------");
     console.log("running a task every 15 seconds");
     var crida = getMetrics();
     console.log(crida);
-  });*/
+  });
 
 //VARIABLES
 let metric = {
@@ -63,6 +55,9 @@ let respuesta = {
  mensaje: ''
 };
 
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
 
 //GET base
 app.get('/', function(req, res) {
