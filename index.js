@@ -31,6 +31,7 @@ app.set('view engine', 'ejs');
 //VARIABLES
 var metrics = { '11a': [], '11b': [], '11c': [] };
 const groups = ['11a', '11b', '11c'];
+const groupNames = { '11a': "PES - Energía y eficiencia", '11b': "CANVIAR NOM", '11c': "CANVIAR NOM"  };
 
 function getMetrics(groupcode) {
 
@@ -63,7 +64,7 @@ function getMetrics(groupcode) {
 
 //s'executa cada dia a les 02:00AM
 //0 2 * * *
-cron.schedule("* */1 * * *", function () {
+//cron.schedule("* */1 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
@@ -71,7 +72,7 @@ cron.schedule("* */1 * * *", function () {
     }, 3000);
   }
   //si la crida falla fer un altre cron al cap de 6 hores per exemple
-});
+//});
 
 
 function isLoggedIn(req, res, next) {
@@ -115,7 +116,12 @@ app.get('/logout', function(req, res, next) {
 app.get('/metrics', isLoggedIn, (req, res) => {
   let groupcode = req.query.groupcode;
   console.log(groupcode);
-  if (groupcode in metrics) res.send(metrics[groupcode]);
+  if (groupcode in metrics) {
+    res.send({
+      metrics: metrics[groupcode],
+      groupname: groupNames[groupcode] 
+    });
+  }
   else res.status(400).send();
 });
 
