@@ -37,7 +37,7 @@ function getMetrics(groupcode) {
 
   var result = '';
 
-  console.log("CRIDA A LA API");
+  console.log("CALLING LEARNING DAHSBOARD API");
 
   http.request('http://gessi-dashboard.essi.upc.edu:8888/api/metrics/current?prj=s'+groupcode, (res) => {
 
@@ -50,7 +50,6 @@ function getMetrics(groupcode) {
     // Ending the response 
     res.on('end', () => {
       result = JSON.parse(data);
-        //console.log(JSON.parse(data));
         metrics[groupcode] = JSON.parse(data);
     });
        
@@ -62,17 +61,15 @@ function getMetrics(groupcode) {
 }
 
 
-//s'executa cada dia a les 02:00AM
-//0 2 * * *
-//cron.schedule("* */1 * * *", function () {
+//EVERY NIGHT AT 02:00AM
+cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-  //si la crida falla fer un altre cron al cap de 6 hores per exemple
-//});
+});
 
 
 function isLoggedIn(req, res, next) {
@@ -90,7 +87,7 @@ app.get('/auth/google',
 
 app.get('/google/callback',
   passport.authenticate('google', {
-    successRedirect: '/protected',
+    successRedirect: '/authenticated',
     failureRedirect: '/auth/failure'
   })
 );
@@ -99,8 +96,8 @@ app.get('auth/failure', (req, res) => {
   res.send('something went wrong with the authentication...');
 })
 
-app.get('/protected', isLoggedIn, (req, res) => {
-  res.send(`Hello ${req.user.displayName}, you can now close this window`);
+app.get('/authenticated', isLoggedIn, (req, res) => {
+  res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
 });
 
 app.get('/logout', function(req, res, next) {
