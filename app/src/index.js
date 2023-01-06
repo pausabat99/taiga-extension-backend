@@ -7,7 +7,6 @@ const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
 const http = require('http');
-const activeWindow = require('active-win');
 require('./auth');
 
 const app = express();
@@ -25,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.set('views', __dirname + '/views');
+app.set('views', 'app/views');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
