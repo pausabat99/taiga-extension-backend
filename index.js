@@ -7,6 +7,7 @@ const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
 const http = require('http');
+const activeWindow = require('active-win');
 require('./auth');
 
 const app = express();
@@ -50,7 +51,7 @@ function getMetrics(groupcode) {
     // Ending the response 
     res.on('end', () => {
       result = JSON.parse(data);
-        metrics[groupcode] = JSON.parse(data);
+      metrics[groupcode] = JSON.parse(data);
     });
        
   }).on("error", (err) => {
@@ -62,14 +63,14 @@ function getMetrics(groupcode) {
 
 
 //EVERY NIGHT AT 02:00AM
-cron.schedule("0 2 * * *", function () {
+//cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-});
+//});
 
 
 function isLoggedIn(req, res, next) {
@@ -106,6 +107,11 @@ app.get('/logout', function(req, res, next) {
     req.session.destroy();
     res.send("Goodbye!");
   });
+});
+
+app.get('/login', (req, res) => {
+  if (req.user) res.sendStatus(200);
+  else res.status(401).send();
 });
 
 
