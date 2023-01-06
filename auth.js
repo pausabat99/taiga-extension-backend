@@ -6,7 +6,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
-    //ccanviar a env allbackURL: "https://taiga-metrics.herokuapp.com/google/callback",
+    //canviar a env callbackURL: "https://taiga-metrics.herokuapp.com/google/callback",
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
