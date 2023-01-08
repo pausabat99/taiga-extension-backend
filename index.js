@@ -3,6 +3,7 @@ require('dotenv').config();
 const cron = require('node-cron');
 const express = require('express');
 const cookieSession = require('cookie-session');
+var cookieParser = require('cookie-parser');
 const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
@@ -12,6 +13,7 @@ require('./public/src/auth');
 
 const app = express();
 
+app.use(cookieParser());
 app.use(cookieSession({
   maxAge:24 * 60 * 60 * 1000,
   keys: [process.env.SECRET],
@@ -72,8 +74,9 @@ function getMetrics(groupcode) {
 
 
 function isLoggedIn(req, res, next) {
-  if (req.user) {
-    console.log(req.user);
+  console.log(req.session);
+  if (req.session) {
+    console.log(req.session);
     next();
   }
   else res.status(401).send();
@@ -101,7 +104,7 @@ app.get('auth/failure', (req, res) => {
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
   res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
-  console.log(req.user);
+  //console.log(req.user);
 });
 
 app.get('/logout', function(req, res, next) {
@@ -110,7 +113,7 @@ app.get('/logout', function(req, res, next) {
 });
 
 app.get('/login', (req, res) => {
-  if (req.user) {
+  if (req.session) {
     console.log("user is already logged in");
     res.sendStatus(200);
   }
