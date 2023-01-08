@@ -75,7 +75,6 @@ cron.schedule("0 2 * * *", function () {
 
 function isLoggedIn(req, res, next) {
   if (req.user) {
-    console.log(req.user);
     next();
   }
   else res.status(401).send();
@@ -102,19 +101,19 @@ app.get('auth/failure', (req, res) => {
 })
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
-  res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
+  var name = req.user.displayName;
+  res.render('auth.html', { name: name });
 });
 
 app.get('/logout', function(req, res, next) {
     req.session = null;
     res.send("Goodbye!");
-    console.log(req.session, "asdas");
 });
 
 //GET metrics
 app.get('/metrics', isLoggedIn, (req, res) => {
   let groupcode = req.query.groupcode;
-  console.log(groupcode);
+  console.log("consulting metrics from group: ", groupcode);
   if (groupcode in metrics) {
     res.send({
       metrics: metrics[groupcode],
