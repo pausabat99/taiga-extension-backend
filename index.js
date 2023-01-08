@@ -15,8 +15,6 @@ const app = express();
 
 app.use(cookieParser());
 app.use(cookieSession({
-  saveUninitialized:true,
-  resave: false,
   maxAge:24 * 60 * 60 * 1000,
   keys: [process.env.SECRET],
   }));
@@ -77,6 +75,7 @@ function getMetrics(groupcode) {
 
 function isLoggedIn(req, res, next) {
   if (req.user) {
+    console.log(req.user);
     next();
   }
   else res.status(401).send();
@@ -103,13 +102,15 @@ app.get('auth/failure', (req, res) => {
 })
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
-  res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
-  //console.log(req.user);
+  //res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
+  res.send({user: req.user});
+  //console.log(passport.session);
 });
 
 app.get('/logout', function(req, res, next) {
     req.session = null;
     res.send("Goodbye!");
+    console.log(req.session, "asdas");
 });
 
 app.get('/login', (req, res) => {
