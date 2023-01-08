@@ -99,6 +99,7 @@ app.get('auth/failure', (req, res) => {
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
   res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
+  console.log(req.user);
 });
 
 app.get('/logout', function(req, res, next) {
@@ -110,7 +111,10 @@ app.get('/logout', function(req, res, next) {
 });
 
 app.get('/login', (req, res) => {
-  if (req.user) res.sendStatus(200);
+  if (req.user) {
+    console.log("user is already logged in");
+    res.sendStatus(200);
+  }
   else res.status(401).send();
 });
 
