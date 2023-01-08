@@ -74,8 +74,7 @@ function getMetrics(groupcode) {
 
 
 function isLoggedIn(req, res, next) {
-  if (req.session) {
-    console.log(req.session == null);
+  if (req.user) {
     next();
   }
   else res.status(401).send();
@@ -112,7 +111,7 @@ app.get('/logout', function(req, res, next) {
 });
 
 app.get('/login', (req, res) => {
-  if (req.session) {
+  if (req.user) {
     console.log("user is already logged in");
     res.sendStatus(200);
   }
