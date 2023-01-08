@@ -15,6 +15,8 @@ const app = express();
 
 app.use(cookieParser());
 app.use(cookieSession({
+  saveUninitialized:true,
+  resave: false,
   maxAge:24 * 60 * 60 * 1000,
   keys: [process.env.SECRET],
   }));
@@ -74,7 +76,7 @@ function getMetrics(groupcode) {
 
 
 function isLoggedIn(req, res, next) {
-  if (req.session) {
+  if (req.user) {
     next();
   }
   else res.status(401).send();
