@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const cron = require('node-cron');
 const express = require('express');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
@@ -12,12 +12,10 @@ require('./public/src/auth');
 
 const app = express();
 
-app.use(session({
-  name : 'session',
-  secret : process.env.SECRET,
-  saveUninitialized : false,
-  resave : true
-}));
+app.use(cookieSession({
+  maxAge:24 * 60 * 60 * 1000,
+  keys: [process.env.SECRET],
+  }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -63,18 +61,22 @@ function getMetrics(groupcode) {
 
 
 //EVERY NIGHT AT 02:00AM
-cron.schedule("0 2 * * *", function () {
+//cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-});
+//});
 
 
 function isLoggedIn(req, res, next) {
-  req.user ? next() : res.status(401).send();
+  if (req.user) {
+    console.log(req.user);
+    next();
+  }
+  else res.status(401).send();
 }
 
 //GET base
@@ -103,11 +105,8 @@ app.get('/authenticated', isLoggedIn, (req, res) => {
 });
 
 app.get('/logout', function(req, res, next) {
-  req.logout(function(err) {
-    if (err) { return next(err); }
-    req.session.destroy();
+    req.session = null
     res.send("Goodbye!");
-  });
 });
 
 app.get('/login', (req, res) => {
