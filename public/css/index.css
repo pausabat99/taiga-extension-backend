@@ -55,7 +55,6 @@ body {
   }
 
   .btn-text a{
-    
     color: #fff;
   }
 
@@ -69,6 +68,16 @@ body {
     color: #fff;
     border: unset;
     box-shadow: 0 3px 4px 0 rgba(0,0,0,.25);
+    text-align: center;
+  }
+
+  #logoutbutton b {
+    vertical-align: middle;
+    line-height: 30px;
+  }
+
+  .logout a {
+    text-decoration: none;
   }
 
   .buttons {

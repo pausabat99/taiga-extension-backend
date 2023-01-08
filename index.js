@@ -107,7 +107,7 @@ app.get('/authenticated', isLoggedIn, (req, res) => {
 
 app.get('/logout', function(req, res, next) {
     req.session = null;
-    res.send("Goodbye!");
+    res.render('logout.html');
 });
 
 //GET metrics
