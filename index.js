@@ -111,15 +111,6 @@ app.get('/logout', function(req, res, next) {
     console.log(req.session, "asdas");
 });
 
-app.get('/login', (req, res) => {
-  if (req.user) {
-    console.log("user is already logged in");
-    res.sendStatus(200);
-  }
-  else res.status(401).send();
-});
-
-
 //GET metrics
 app.get('/metrics', isLoggedIn, (req, res) => {
   let groupcode = req.query.groupcode;
