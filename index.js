@@ -102,8 +102,8 @@ app.get('auth/failure', (req, res) => {
 })
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
-  //res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
-  res.send({user: req.user});
+  res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
+  //res.send({user: req.user});
   //console.log(passport.session);
 });
 
