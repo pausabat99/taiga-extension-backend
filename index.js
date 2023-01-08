@@ -15,7 +15,7 @@ const app = express();
 
 app.use(cookieParser());
 app.use(cookieSession({
-  maxAge:24 * 60 * 60 * 1000,
+  maxAge: 24 * 60 * 60 * 1000,
   keys: [process.env.SECRET],
   }));
 
@@ -63,14 +63,14 @@ function getMetrics(groupcode) {
 
 
 //EVERY NIGHT AT 02:00AM
-//cron.schedule("0 2 * * *", function () {
+cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-//});
+});
 
 
 function isLoggedIn(req, res, next) {
@@ -102,9 +102,7 @@ app.get('auth/failure', (req, res) => {
 })
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
-  //res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
-  res.send({user: req.user});
-  //console.log(passport.session);
+  res.send(`<h2>User ${req.user.displayName} authenticated</h2> <p>You can now close this window<p/>`);
 });
 
 app.get('/logout', function(req, res, next) {
