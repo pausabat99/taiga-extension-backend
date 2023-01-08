@@ -74,7 +74,7 @@ function getMetrics(groupcode) {
 
 
 function isLoggedIn(req, res, next) {
-  if (req.user) {
+  if (req.session) {
     next();
   }
   else res.status(401).send();
