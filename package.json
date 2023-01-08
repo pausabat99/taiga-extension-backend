@@ -4,8 +4,8 @@
   "description": "API REST to return Learning Dashboard metrics",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon app/src/index.js",
-    "start": "node app/src/index.js"
+    "test": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

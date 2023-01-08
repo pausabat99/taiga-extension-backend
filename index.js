@@ -7,15 +7,16 @@ const cors = require('cors');
 const passport = require("passport");
 const bodyParser = require('body-parser');
 const http = require('http');
-require('./auth');
+var path = require('path');
+require('./public/src/auth');
 
 const app = express();
 
 app.use(session({
-    name : 'session',
-    secret : process.env.SECRET,
-    saveUninitialized : false,
-    resave : true
+  name : 'session',
+  secret : process.env.SECRET,
+  saveUninitialized : false,
+  resave : true
 }));
 
 app.use(passport.initialize());
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.set('views', 'app/views');
+app.use(express.static(__dirname + '/public'));
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
