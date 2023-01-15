@@ -30,9 +30,10 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
 //VARIABLES
-var metrics = { '11a': [], '11b': [], '11c': [] };
-const groups = ['11a', '11b', '11c'];
-const groupNames = { '11a': "PES - Energía y eficiencia", '11b': "CANVIAR NOM", '11c': "CANVIAR NOM"  };
+var metrics = { 's11a': [], 's11b': [], 's11c': [], 'j12a': [], 'j12b': [], 'j12c': [], 'asw12a': [], 'asw12b': [], 'asw12c': [], 'asw12d': [], 'asw12e': [], 'asw13a': [], 'asw13b': [], 'asw13c': [] };
+const groups = ['s11a', 's11b', 's11c', 'j12a', 'j12b', 'j12c', 'asw12a', 'asw12b', 'asw12c', 'asw12d', 'asw12e', 'asw13a', 'asw13b', 'asw13c'];
+const groupNames = { 's11a': "PES - BusCAT", 's11b': "ElectriCity", 's11c': "Potus - Pot Manifesto", 'j12a': "PES-Green Wheel", 'j12b': "PES-AirB&Breath", 'j12c': "MeetCAT", 'asw12a': "Hacker News - ASW", 'asw12b': "ASW - Hacker News", 'asw12c': "ASW: HackerNews Clone", 'asw12d': "ASW12D", 'asw12e': "ASW Hacker News Projects", 'asw13a': "ASW-Framework", 'asw13b': "ASW", 'asw13c': "HackerNews ASW"};
+
 
 function getMetrics(groupcode) {
 
@@ -40,7 +41,7 @@ function getMetrics(groupcode) {
 
   console.log("CALLING LEARNING DAHSBOARD API");
 
-  http.request('http://gessi-dashboard.essi.upc.edu:8888/api/metrics/current?prj=s'+groupcode, (res) => {
+  http.request('http://gessi-dashboard.essi.upc.edu:8888/api/metrics/current?prj='+groupcode, (res) => {
 
     let data = ''
     
@@ -63,14 +64,14 @@ function getMetrics(groupcode) {
 
 
 //EVERY NIGHT AT 02:00AM
-//cron.schedule("0 2 * * *", function () {
+cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-//});
+});
 
 
 function isLoggedIn(req, res, next) {
@@ -97,7 +98,7 @@ app.get('/google/callback',
 );
 
 app.get('auth/failure', (req, res) => {
-  res.send('something went wrong with the authentication...');
+  res.render('error.html');
 })
 
 app.get('/authenticated', isLoggedIn, (req, res) => {
