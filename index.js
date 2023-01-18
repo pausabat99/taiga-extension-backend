@@ -64,14 +64,14 @@ function getMetrics(groupcode) {
 
 
 //EVERY NIGHT AT 02:00AM
-//cron.schedule("0 2 * * *", function () {
+cron.schedule("0 2 * * *", function () {
   for (let index = 0; index < groups.length; ++index) {
     let groupcode = groups[index];
     setTimeout(() => {
       getMetrics(groupcode);
     }, 3000);
   }
-//});
+});
 
 
 function isLoggedIn(req, res, next) {
