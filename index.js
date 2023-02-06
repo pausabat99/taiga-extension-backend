@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 //VARIABLES
 var metrics = { 's11a': [], 's11b': [], 's11c': [], 'j12a': [], 'j12b': [], 'j12c': [], 'asw12a': [], 'asw12b': [], 'asw12c': [], 'asw12d': [], 'asw12e': [], 'asw13a': [], 'asw13b': [], 'asw13c': [] };
 const groups = ['s11a', 's11b', 's11c', 'j12a', 'j12b', 'j12c', 'asw12a', 'asw12b', 'asw12c', 'asw12d', 'asw12e', 'asw13a', 'asw13b', 'asw13c'];
-const groupNames = { 's11a': "PES - Energía y eficiencia", 's11b': "ElectriCity", 's11c': "Potus - Pot Manifesto", 'j12a': "PES-Green Wheel", 'j12b': "PES-AirB&Breath", 'j12c': "MeetCAT", 'asw12a': "Hacker News - ASW", 'asw12b': "ASW - Hacker News", 'asw12c': "ASW: HackerNews Clone", 'asw12d': "ASW12D", 'asw12e': "ASW Hacker News Projects", 'asw13a': "ASW-Framework", 'asw13b': "ASW", 'asw13c': "HackerNews ASW"};
+const groupNames = { 's11a': "PES - BusCAT", 's11b': "ElectriCity", 's11c': "Potus - Pot Manifesto", 'j12a': "PES-Green Wheel", 'j12b': "PES-AirB&Breath", 'j12c': "MeetCAT", 'asw12a': "Hacker News - ASW", 'asw12b': "ASW - Hacker News", 'asw12c': "ASW: HackerNews Clone", 'asw12d': "ASW12D", 'asw12e': "ASW Hacker News Projects", 'asw13a': "ASW-Framework", 'asw13b': "ASW", 'asw13c': "HackerNews ASW"};
 //CANVIAR EL PRIMER GRUP
 
 function getMetrics(groupcode) {
